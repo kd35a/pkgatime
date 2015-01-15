@@ -1,7 +1,7 @@
 CC	= gcc
 CFLAGS	= -g -Wall -pedantic -std=c99 -Werror -lalpm
 OUT	= pkgatime
-OBJS	= main.o
+OBJS	= main.o slist.o
 
 main: $(OUT)
 	./$(OUT)
@@ -14,3 +14,6 @@ c.o: c.c
 
 clean:
 	rm -rf $(OUT) $(OBJS)
+
+vg: $(OUT)
+	valgrind --tool=memcheck ./$(OUT)

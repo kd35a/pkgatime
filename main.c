@@ -55,10 +55,10 @@ int main(int argc, char** argv)
 	slist_t*		l = NULL;
 	slist_t*		p;
 	int			i;
-	long int		numpkgs = 20;
+	unsigned long int	numpkgs = 20;
 
 	if (argc > 1) {
-		numpkgs = strtol(argv[1], NULL, 10);
+		numpkgs = strtoul(argv[1], NULL, 10);
 	}
 
 	if ((handle = alpm_initialize("/", "/var/lib/pacman", &err)) == NULL) {

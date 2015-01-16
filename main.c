@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 	pkgatime_t*		pkgatime;
 	slist_t*		l = NULL;
 	slist_t*		p;
-	int			i;
+	size_t			i;
 	unsigned long int	numpkgs = 20;
 	size_t			listlen;
 

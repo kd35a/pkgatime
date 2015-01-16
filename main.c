@@ -45,7 +45,7 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 	return pkgatime;
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
 	alpm_handle_t		*handle;
 	alpm_db_t		*db;
@@ -56,6 +56,11 @@ int main(void)
 	slist_t*		l = NULL;
 	slist_t*		p;
 	int			i;
+	long int		numpkgs = 20;
+
+	if (argc > 1) {
+		numpkgs = strtol(argv[1], NULL, 10);
+	}
 
 	if ((handle = alpm_initialize("/", "/var/lib/pacman", &err)) == NULL) {
 		fprintf(stderr, "Error initializing alpm handle: %s\n",
@@ -66,7 +71,7 @@ int main(void)
 	db = alpm_get_localdb(handle);
 
 	pkglist = alpm_db_get_pkgcache(db);
-	printf("%zu\n", alpm_list_count(pkglist));
+	printf("Number of installed packages: %zu\n", alpm_list_count(pkglist));
 
 	for (; pkglist; pkglist = alpm_list_next(pkglist)) {
 		pkg = pkglist->data;
@@ -78,7 +83,9 @@ int main(void)
 	}
 
 	p = l;
-	for (i = 0; i < 20; i++) {
+	printf("Listing %ld least commonly used packages:\n", numpkgs);
+	printf("%32s\t%s\n", "Package", "Last used");
+	for (i = 0; i < numpkgs; i++) {
 		print_pkg(p->data);
 		p = p->succ;
 	}

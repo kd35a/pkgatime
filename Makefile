@@ -3,8 +3,9 @@ CFLAGS	= -g -Wall -pedantic -std=c99 -Werror -lalpm
 OUT	= pkgatime
 OBJS	= main.o slist.o
 
+.PHONY: clean main
+
 main: $(OUT)
-	./$(OUT)
 
 $(OUT): $(OBJS)
 	$(CC) -o $(OUT) $(OBJS) $(CFLAGS)

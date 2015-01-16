@@ -14,7 +14,7 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 	alpm_file_t		file;
 	struct stat		buf;
 	int			i;
-	char			filename[PATH_MAX];
+	char			filename[PATH_MAX] = {0};
 	pkgatime_t*		pkgatime;
 
 	pkgatime = malloc(sizeof(pkgatime_t));
@@ -29,7 +29,7 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 	}
 	for(i = 0; i < filelist->count; i++) {
 		file = filelist->files[i];
-		sprintf(filename, "/%s", file.name);
+		snprintf(filename, PATH_MAX, "/%s", file.name);
 
 		stat(filename, &buf);
 		if (!S_ISREG(buf.st_mode)) {
@@ -57,7 +57,12 @@ int main(void)
 	slist_t*		p;
 	int			i;
 
-	handle = alpm_initialize("/", "/var/lib/pacman", &err);
+	if ((handle = alpm_initialize("/", "/var/lib/pacman", &err)) == NULL) {
+		fprintf(stderr, "Error initializing alpm handle: %s\n",
+			alpm_strerror(err));
+		exit(EXIT_FAILURE);
+	}
+
 	db = alpm_get_localdb(handle);
 
 	pkglist = alpm_db_get_pkgcache(db);

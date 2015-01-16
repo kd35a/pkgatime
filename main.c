@@ -56,6 +56,7 @@ int main(int argc, char** argv)
 	slist_t*		p;
 	int			i;
 	unsigned long int	numpkgs = 20;
+	size_t			listlen;
 
 	if (argc > 1) {
 		numpkgs = strtoul(argv[1], NULL, 10);
@@ -81,6 +82,14 @@ int main(int argc, char** argv)
 		slist_insert(&l, pkgatime->time, pkgatime);
 	}
 
+	listlen = slist_length(l);
+	if (numpkgs > listlen) {
+		fprintf(stderr, "Trying to print too many packages: %ld > %zu\n",
+			numpkgs,
+			listlen);
+		exit(EXIT_FAILURE);
+	}
+
 	p = l;
 	printf("Listing %ld least commonly used packages:\n", numpkgs);
 	printf("%32s\t%s\n", "Package", "Last used");
@@ -90,7 +99,7 @@ int main(int argc, char** argv)
 	}
 
 	p = l;
-	for (i = 0; i < slist_length(l); i++) {
+	for (i = 0; i < listlen; i++) {
 		pkgatime = p->data;
 		free(pkgatime);
 		p = p->succ;

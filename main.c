@@ -17,16 +17,15 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 	char			filename[PATH_MAX] = {0};
 	pkgatime_t*		pkgatime;
 
+	filelist = alpm_pkg_get_files(pkg);
+	if (filelist->count == 0) {
+		return NULL;
+	}
+
 	pkgatime = malloc(sizeof(pkgatime_t));
 	pkgatime->time = 0; // Not optimal, but... working?
 	pkgatime->pkgname = alpm_pkg_get_name(pkg);
 
-	filelist = alpm_pkg_get_files(pkg);
-
-	if (filelist->count == 0) {
-		free(pkgatime);
-		return NULL;
-	}
 	for(i = 0; i < filelist->count; i++) {
 		file = filelist->files[i];
 		snprintf(filename, PATH_MAX, "/%s", file.name);

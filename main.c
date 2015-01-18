@@ -46,10 +46,10 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 
 int main(int argc, char** argv)
 {
-	alpm_handle_t		*handle;
-	alpm_db_t		*db;
-	alpm_list_t		*pkglist;
-	alpm_pkg_t		*pkg;
+	alpm_handle_t*		handle;
+	alpm_db_t*		db;
+	alpm_list_t*		pkglist;
+	alpm_pkg_t*		pkg;
 	enum _alpm_errno_t	err;
 	pkgatime_t*		pkgatime;
 	slist_t*		l = NULL;
@@ -114,10 +114,6 @@ int main(int argc, char** argv)
 
 void print_pkg(pkgatime_t* pkgatime)
 {
-	/*printf("%s\n%ld\t%s\n",
-		pkgatime->pkgname,
-		pkgatime->time,
-		ctime(&pkgatime->time));*/
 	printf("%32s\t%s",
 		pkgatime->pkgname,
 		ctime(&pkgatime->time));

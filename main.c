@@ -57,6 +57,7 @@ int main(int argc, char** argv)
 	size_t			i;
 	unsigned long int	numpkgs = 20;
 	size_t			listlen;
+	int			exit_code = 0;
 
 	if (argc > 1) {
 		numpkgs = strtoul(argv[1], NULL, 10);
@@ -87,15 +88,15 @@ int main(int argc, char** argv)
 		fprintf(stderr, "Trying to print too many packages: %ld > %zu\n",
 			numpkgs,
 			listlen);
-		exit(EXIT_FAILURE);
-	}
-
-	p = l;
-	printf("Listing %ld least commonly used packages:\n", numpkgs);
-	printf("%32s\t%s\n", "Package", "Last used");
-	for (i = 0; i < numpkgs; i++) {
-		print_pkg(p->data);
-		p = p->succ;
+		exit_code = EXIT_FAILURE;
+	} else {
+		p = l;
+		printf("Listing %ld least commonly used packages:\n", numpkgs);
+		printf("%32s\t%s\n", "Package", "Last used");
+		for (i = 0; i < numpkgs; i++) {
+			print_pkg(p->data);
+			p = p->succ;
+		}
 	}
 
 	p = l;
@@ -104,12 +105,10 @@ int main(int argc, char** argv)
 		free(pkgatime);
 		p = p->succ;
 	}
-
 	free_slist(&l);
-
 	alpm_release(handle);
 
-	return 0;
+	return exit_code;
 }
 
 void print_pkg(pkgatime_t* pkgatime)

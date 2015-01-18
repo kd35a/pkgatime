@@ -13,7 +13,7 @@ pkgatime_t* get_pkg_stat(alpm_pkg_t *pkg)
 	alpm_filelist_t*	filelist;
 	alpm_file_t		file;
 	struct stat		buf;
-	int			i;
+	size_t			i;
 	char			filename[PATH_MAX] = {0};
 	pkgatime_t*		pkgatime;
 
@@ -85,13 +85,13 @@ int main(int argc, char** argv)
 
 	listlen = slist_length(l);
 	if (numpkgs > listlen) {
-		fprintf(stderr, "Trying to print too many packages: %ld > %zu\n",
+		fprintf(stderr, "Trying to print too many packages: %lu > %zu\n",
 			numpkgs,
 			listlen);
 		exit_code = EXIT_FAILURE;
 	} else {
 		p = l;
-		printf("Listing %ld least commonly used packages:\n", numpkgs);
+		printf("Listing %lu least commonly used packages:\n", numpkgs);
 		printf("%32s\t%s\n", "Package", "Last used");
 		for (i = 0; i < numpkgs; i++) {
 			print_pkg(p->data);

@@ -1,0 +1,28 @@
+#
+# Once done this will define
+#  ALPM_FOUND        - TRUE if alpm found
+#  ALPM_INCLUDE_DIRS - Where to find alpm include sub-directory
+#  ALPM_LIBRARIES    - List of libraries when using alpm
+#
+
+# check cache
+IF(ALPM_INCLUDE_DIRS)
+  SET(ALPM_FIND_QUIETLY TRUE)
+ENDIF(ALPM_INCLUDE_DIRS)
+
+# find includes and libraries
+FIND_PATH(ALPM_INCLUDE_DIRS alpm.h)
+FIND_LIBRARY(ALPM_LIBRARY NAMES alpm)
+
+# standard handling
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(ALPM DEFAULT_MSG ALPM_LIBRARY ALPM_INCLUDE_DIRS)
+
+IF(ALPM_FOUND)
+  SET(ALPM_LIBRARIES ${ALPM_LIBRARY})
+ELSE(ALPM_FOUND)
+  SET(ALPM_LIBRARIES)
+ENDIF(ALPM_FOUND)
+
+# mark cache
+MARK_AS_ADVANCED(ALPM_LIBRARIES ALPM_INCLUDE_DIRS)
